@@ -14,7 +14,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['**/dist/', '**/vite.configs.ts'],
+    ignores: ['**/dist/', '**/vite.configs.ts', '**/node_modules/'],
   },
   ...compat.extends(
     'eslint:recommended',
