@@ -14,12 +14,11 @@ describe('creating posts', () => {
   test('with all parameters should succeed', async () => {
     const post = {
       title: 'Hello mongoose!',
-      author: new mongoose.Types.ObjectId(),
       contents: 'This post is stored in a MongoDB database using Mongoose.',
       tags: ['mongoose', 'mongodb'],
     }
 
-    const createdPost = await createPost(post)
+    const createdPost = await createPost(new mongoose.Types.ObjectId(), post)
 
     expect(createdPost._id).toBeInstanceOf(mongoose.Types.ObjectId)
 
@@ -31,14 +30,14 @@ describe('creating posts', () => {
   })
 
   test('without title should fail', async () => {
+    const userId = new mongoose.Types.ObjectId()
     const post = {
-      author: 'Alyson Gadelha',
       contents: 'Post without title.',
       tags: ['empty'],
     }
 
     try {
-      await createPost(post)
+      await createPost(userId, post)
     } catch (error) {
       expect(error).toBeInstanceOf(mongoose.Error.ValidationError)
       expect(error.message).toContain('`title` is required')
@@ -46,12 +45,12 @@ describe('creating posts', () => {
   })
 
   test('with minimal parameters should succeed', async () => {
+    const userId = new mongoose.Types.ObjectId()
     const post = {
       title: 'Only a title',
-      author: new mongoose.Types.ObjectId(),
     }
 
-    const createdPost = await createPost(post)
+    const createdPost = await createPost(userId, post)
 
     expect(createdPost._id).toBeInstanceOf(mongoose.Types.ObjectId)
   })
@@ -78,6 +77,7 @@ const samplePosts = [
 
 let createdSamplePosts = []
 let postId
+let userId
 beforeEach(async () => {
   await Post.deleteMany({})
   createdSamplePosts = []
@@ -87,6 +87,7 @@ beforeEach(async () => {
   }
 
   postId = createdSamplePosts[0]._id
+  userId = createdSamplePosts[0].author
 })
 
 describe('listing posts', () => {
@@ -144,18 +145,18 @@ describe('getting a post', () => {
 
 describe('updating posts', () => {
   test('should update the specified property', async () => {
-    await updatePost(postId, {
-      author: '551137c2f9e1fac808a5f572',
+    await updatePost(userId, postId, {
+      tags: ['React', 'news'],
     })
 
     const updatedPost = await Post.findById(postId)
 
-    expect(updatedPost.author.toString()).toEqual('551137c2f9e1fac808a5f572')
+    expect(updatedPost.tags).toEqual(['React', 'news'])
   })
 
   test('should not update other properties', async () => {
-    await updatePost(postId, {
-      author: new mongoose.Types.ObjectId(),
+    await updatePost(userId, postId, {
+      tags: ['React', 'news'],
     })
 
     const updatedPost = await Post.findById(postId)
@@ -164,9 +165,7 @@ describe('updating posts', () => {
   })
 
   test('should update the updatedAt timestamp', async () => {
-    await updatePost(postId, {
-      author: new mongoose.Types.ObjectId(),
-    })
+    await updatePost(userId, postId, {})
 
     const updatedPost = await Post.findById(postId)
 
@@ -176,9 +175,7 @@ describe('updating posts', () => {
   })
 
   test('should fail if the id does not exist', async () => {
-    const post = await updatePost('0'.repeat(24), {
-      author: new mongoose.Types.ObjectId(),
-    })
+    const post = await updatePost(userId, '0'.repeat(24), {})
 
     expect(post).toEqual(null)
   })
@@ -186,7 +183,7 @@ describe('updating posts', () => {
 
 describe('deleting posts', () => {
   test('should remove the post from the database', async () => {
-    const result = await deletePost(postId)
+    const result = await deletePost(userId, postId)
 
     expect(result.deletedCount).toEqual(1)
 
@@ -196,7 +193,7 @@ describe('deleting posts', () => {
   })
 
   test('should fail if the id does not exist', async () => {
-    const result = await deletePost('0'.repeat(24))
+    const result = await deletePost(userId, '0'.repeat(24))
 
     expect(result.deletedCount).toEqual(0)
   })

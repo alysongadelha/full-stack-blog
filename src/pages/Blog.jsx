@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { CreatePost } from './components/CreatePost'
-import { PostFilter } from './components/PostFilter'
-import { PostSorting } from './components/PostSorting'
-import { PostList } from './components/PostList'
-import { getPosts } from './api/posts.js'
+import { CreatePost } from '../components/CreatePost'
+import { PostFilter } from '../components/PostFilter'
+import { PostSorting } from '../components/PostSorting'
+import { PostList } from '../components/PostList'
+import { getPosts } from '../api/posts.js'
 
 export const Blog = () => {
   const [author, setAuthor] = useState('')
