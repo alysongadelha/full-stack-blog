@@ -6,6 +6,7 @@ import { FlatCompat } from '@eslint/eslintrc'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
@@ -13,17 +14,14 @@ const compat = new FlatCompat({
 })
 
 export default [
+  // Use FlatCompat to bring in legacy ESLint configs
   ...compat.extends('eslint:recommended', 'prettier'),
-
   {
     files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: {
-        ...globals.node,
-        process: 'readonly',
-      },
+      globals: globals.node,
     },
   },
   {

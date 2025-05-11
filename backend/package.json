@@ -30,5 +30,11 @@
     "express-jwt": "^8.5.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "npx prettier --write",
+      "npx eslint --config eslint.config.mjs --fix"
+    ]
   }
 }

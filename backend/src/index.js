@@ -12,4 +12,5 @@ try {
   })
 } catch (error) {
   console.error('error connecting to database', error)
+  console.log('Verify the database connection')
 }
