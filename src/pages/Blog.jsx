@@ -5,6 +5,7 @@ import { PostFilter } from '../components/PostFilter'
 import { PostSorting } from '../components/PostSorting'
 import { PostList } from '../components/PostList'
 import { getPosts } from '../api/posts.js'
+import { Header } from '../components/Header.jsx'
 
 export const Blog = () => {
   const [author, setAuthor] = useState('')
@@ -20,6 +21,10 @@ export const Blog = () => {
 
   return (
     <div style={{ padding: 8 }}>
+      <Header />
+      <br />
+      <hr />
+      <br />
       <CreatePost />
       <br />
       <hr />
