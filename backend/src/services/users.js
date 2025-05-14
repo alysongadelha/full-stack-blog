@@ -28,3 +28,15 @@ export const loginUser = async ({ username, password }) => {
 
   return token
 }
+
+export const getUserInfoById = async (userId) => {
+  try {
+    const user = await User.findById(userId)
+
+    if (!user) return { username: userId }
+  } catch (error) {
+    console.error(`A unexpected error happened: `, error)
+
+    return { username: userId }
+  }
+}

@@ -15,7 +15,7 @@ describe('creating users', () => {
 
     const foundUser = await User.findById(createdUser._id)
 
-    expect(foundUser.name).toBe(createdUser.name)
+    expect(foundUser.username).toBe(createdUser.username)
     expect(foundUser.password).toBe(createdUser.password)
   })
 })

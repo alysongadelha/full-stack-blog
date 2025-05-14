@@ -10,6 +10,7 @@ import {
 } from '../services/posts'
 import mongoose from 'mongoose'
 import { Post } from '../db/models/post'
+import { User } from '../db/models/user'
 describe('creating posts', () => {
   test('with all parameters should succeed', async () => {
     const post = {
@@ -121,8 +122,18 @@ describe('listing posts', () => {
   })
 
   test('should be able to filter posts by author', async () => {
-    const posts = await listPostsByAuthor('68164cee46ca3facab04232f')
-    expect(posts.length).toBe(3)
+    const createUser = new User({ username: 'Admin', password: 'admin' })
+    const createdUser = await createUser.save()
+
+    const lastPost = new Post({
+      title: 'Jest',
+      author: createdUser._id,
+      tag: ['test', 'pain'],
+    })
+    createdSamplePosts.push(await lastPost.save())
+
+    const posts = await listPostsByAuthor('Admin')
+    expect(posts.length).toBe(1)
   })
 
   test('should be able to filter posts by tag', async () => {
