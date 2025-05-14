@@ -17,3 +17,19 @@ export const signup = async ({ username, password }) => {
 
   return await res.json()
 }
+
+export const login = async ({ username, password }) => {
+  const init = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  }
+  const res = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+    init,
+  )
+
+  if (!res.ok) throw new Error('Failed to login.')
+
+  return await res.json()
+}
