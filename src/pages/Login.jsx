@@ -13,7 +13,7 @@ export const Login = () => {
   const loginMutation = useMutation({
     mutationFn: () => login({ username, password }),
     onSuccess: (data) => {
-      setToken(data)
+      setToken(data.token)
       navigate('/')
     },
     onError: () => alert('failed to login!'),
