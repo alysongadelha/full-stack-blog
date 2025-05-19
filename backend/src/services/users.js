@@ -33,7 +33,7 @@ export const getUserInfoById = async (userId) => {
   try {
     const user = await User.findById(userId)
 
-    if (!user) return { username: userId }
+    if (user) return { username: user.username }
   } catch (error) {
     console.error(`A unexpected error happened: `, error)
 

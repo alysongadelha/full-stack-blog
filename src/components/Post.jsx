@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { deletePost } from '../api/posts'
+import { User } from './User'
 
 export const Post = ({ title, contents, author, tags, _id }) => {
   const queryClient = useQueryClient()
@@ -34,7 +35,7 @@ export const Post = ({ title, contents, author, tags, _id }) => {
         {author && (
           <em>
             <br />
-            Written by <strong>{author}</strong>
+            Written by <User id={author} />
           </em>
         )}
         <br />

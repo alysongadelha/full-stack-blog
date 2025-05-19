@@ -33,3 +33,16 @@ export const login = async ({ username, password }) => {
 
   return await res.json()
 }
+
+export const getUserInfo = async (id) => {
+  const init = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }
+  const res = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/users/${id}`,
+    init,
+  )
+
+  return await res.json()
+}
