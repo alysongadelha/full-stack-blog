@@ -1,10 +1,14 @@
 export const getPosts = async (queryParams) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/posts?` +
-      new URLSearchParams(queryParams),
-  )
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/posts?` +
+        new URLSearchParams(queryParams),
+    )
 
-  return await response.json()
+    return await response.json()
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export const createPost = async (token, post) => {

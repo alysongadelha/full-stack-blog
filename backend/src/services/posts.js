@@ -22,8 +22,6 @@ export const listAllPosts = async (options) => await listPosts({}, options)
 export const listPostsByAuthor = async (authorUsername, options) => {
   const user = await User.findOne({ username: authorUsername })
 
-  console.log('user', await User.find())
-
   if (!user) return []
 
   return await listPosts({ author: user._id }, options)
