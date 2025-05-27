@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { Helmet } from 'react-helmet-async'
+
 import { CreatePost } from '../components/CreatePost'
 import { PostFilter } from '../components/PostFilter'
 import { PostSorting } from '../components/PostSorting'
@@ -21,6 +23,9 @@ export const Blog = () => {
 
   return (
     <div style={{ padding: 8 }}>
+      <Helmet>
+        <title>Full-Stack React Blog</title>
+      </Helmet>
       <Header />
       <br />
       <hr />

@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { getPostById } from '../api/posts'
 import { Header } from '../components/Header.jsx'
-import { Link } from 'react-router-dom'
 import { Post } from '../components/Post'
 export const ViewPost = ({ postId }) => {
   const postQuery = useQuery({
@@ -14,6 +15,11 @@ export const ViewPost = ({ postId }) => {
 
   return (
     <div style={{ padding: 8 }}>
+      {post && (
+        <Helmet>
+          <title>{post.title} | Full-Stack React Blog</title>
+        </Helmet>
+      )}
       <Header />
       <br />
       <hr />
