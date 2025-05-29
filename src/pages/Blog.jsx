@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Helmet } from 'react-helmet-async'
-
+import helmetAsync from 'react-helmet-async'
+const { Helmet } = helmetAsync
 import { CreatePost } from '../components/CreatePost'
 import { PostFilter } from '../components/PostFilter'
 import { PostSorting } from '../components/PostSorting'

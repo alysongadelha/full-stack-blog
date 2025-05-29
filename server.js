@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-
 import express from 'express'
 import dotenv from 'dotenv'
+import { generateSitemap } from './generateSitemap.js'
 dotenv.config()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -26,6 +26,15 @@ const createDevServer = async () => {
     next()
   })
   app.use(async (req, res, next) => {
+    if (req.originalUrl === '/sitemap.xml') {
+      const sitemap = await generateSitemap()
+
+      return res
+        .status(200)
+        .set({ 'Content-Type': 'application/xml' })
+        .end(sitemap)
+    }
+
     try {
       const templateHtml = fs.readFileSync(
         path.resolve(__dirname, 'index.html'),
@@ -63,6 +72,15 @@ const createProdServer = async () => {
     ),
   )
   app.use(async (req, res, next) => {
+    if (req.originalUrl === '/sitemap.xml') {
+      const sitemap = await generateSitemap()
+
+      return res
+        .status(200)
+        .set({ 'Content-Type': 'application/xml' })
+        .end(sitemap)
+    }
+
     try {
       let template = fs.readFileSync(
         path.resolve(__dirname, 'dist/client/index.html'),
@@ -93,7 +111,7 @@ if (process.env.NODE_ENV === 'production') {
   const app = await createDevServer()
   app.listen(process.env.PORT, () => {
     console.log(
-      `srr dev server running on http://localhost:${process.env.PORT}`,
+      `ssr dev server running on http://localhost:${process.env.PORT}`,
     )
   })
 }
