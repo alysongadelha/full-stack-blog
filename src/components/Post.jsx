@@ -56,11 +56,7 @@ export const Post = ({
           </em>
         )}
         <br />
-        {tags.map((tag) => (
-          <span style={{ margin: 2, color: 'gray' }} key={tag}>
-            {tag}
-          </span>
-        ))}
+        <span className='tags'>{tags.map((tag) => tag).join(' | ')}</span>
       </article>
     </div>
   )
