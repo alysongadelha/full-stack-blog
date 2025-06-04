@@ -12,7 +12,10 @@
     "lint": "eslint src",
     "preview": "vite preview",
     "prepare": "husky",
-    "start": "cross-env NODE_ENV=production node server"
+    "start": "cross-env NODE_ENV=production node server",
+    "e2e": "concurrently \"npm run e2e:client\" \"npm run e2e:server\"",
+    "e2e:client": "npm run build && npm run start",
+    "e2e:server": "cd backend/ && npm run e2e"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.73.3",
@@ -31,9 +34,12 @@
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint/js": "^9.17.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.29",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
