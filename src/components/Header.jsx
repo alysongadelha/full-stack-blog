@@ -19,7 +19,7 @@ export const Header = () => {
   }
   return (
     <nav>
-      <Link to={'login'}>Log in</Link> | <Link to={'signup'}>Sing up</Link>
+      <Link to={'login'}>Log in</Link> | <Link to={'signup'}>Sign up</Link>
     </nav>
   )
 }

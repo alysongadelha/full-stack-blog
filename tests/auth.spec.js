@@ -4,7 +4,7 @@ test('allows sign up and log in', async ({ page }) => {
   const testUser = 'test' + Date.now()
 
   await page.goto('/')
-  await page.getByRole('link', { name: 'Sing up' }).click()
+  await page.getByRole('link', { name: 'Sign Up' }).click()
   await page.getByRole('textbox', { name: 'Username:' }).click()
   await page.getByRole('textbox', { name: 'Username:' }).fill(testUser)
   await page.getByRole('textbox', { name: 'Password:' }).click()
