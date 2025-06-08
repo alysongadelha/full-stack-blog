@@ -45,7 +45,7 @@ export const Signup = () => {
       <br />
       <input
         type='submit'
-        value={signupMutation.isPending ? 'Signing up...' : 'Sign up'}
+        value={signupMutation.isPending ? 'Signing Up...' : 'Sign Up'}
         disabled={!username || !password || signupMutation.isPending}
       />
     </form>
