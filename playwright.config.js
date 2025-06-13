@@ -75,5 +75,6 @@ export default defineConfig({
   webServer: {
     command: 'npm run e2e',
     url: 'http://localhost:3004',
+    timeout: 120000, // Increase timeout to 120 seconds
   },
 })
