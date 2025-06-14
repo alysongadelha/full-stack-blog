@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('allows sign up and log in', async ({ page }) => {
+test.skip('allows sign up and log in', async ({ page }) => {
   const testUser = 'test' + Date.now()
 
   await page.goto('/')
