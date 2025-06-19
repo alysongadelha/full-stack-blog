@@ -13,9 +13,6 @@ import {
   getDailyDurations,
 } from '../api/events.js'
 
-const formatToHours = (timeInSeconds) =>
-  new Date(timeInSeconds * 1000).toISOString().slice(11, 19)
-
 export const PostStats = ({ postId }) => {
   const totalViews = useQuery({
     queryKey: ['totalViews', postId],
@@ -38,20 +35,6 @@ export const PostStats = ({ postId }) => {
     return <div>Loading stats....</div>
   }
 
-  const averageDuration = dailyDurations.data.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.averageDuration,
-    0,
-  )
-
-  const averageDurationFormatted = formatToHours(averageDuration)
-
-  const averageDailyViews = Math.floor(
-    dailyViews.data.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.views,
-      0,
-    ) / dailyViews.data.length,
-  )
-
   return (
     <div>
       <b>{totalViews.data?.views} total views</b>
@@ -68,8 +51,28 @@ export const PostStats = ({ postId }) => {
           />
         </VictoryChart>
       </div>
-      <pre>{averageDailyViews} average daily views</pre>
-      <pre>{averageDurationFormatted}</pre>
+      <div style={{ width: 512 }}>
+        <h4>Daily Average Viewing Duration</h4>
+        <VictoryChart
+          domainPadding={16}
+          containerComponent={
+            <VictoryVoronoiContainer
+              voronoiDimension='x'
+              labels={({ datum }) =>
+                `${datum.x.toLocaleDateString()}: ${datum.y.toFixed(2)} minutes`
+              }
+              labelComponent={<VictoryTooltip />}
+            />
+          }
+        >
+          <VictoryLine
+            data={dailyDurations.data?.map((data) => ({
+              x: new Date(data._id),
+              y: data.averageDuration / (60 * 1000),
+            }))}
+          />
+        </VictoryChart>
+      </div>
     </div>
   )
 }
