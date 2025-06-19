@@ -6,7 +6,8 @@ import { Helmet } from 'react-helmet-async'
 import { getPostById } from '../api/posts.js'
 import { getUserInfo } from '../api/users.js'
 import { Header } from '../components/Header.jsx'
-import { Post } from '../components/Post'
+import { Post } from '../components/Post.jsx'
+import { PostStats } from '../components/PostStats.jsx'
 import { postTrackEvent } from '../api/events.js'
 
 const truncate = (str, max = 160) => {
@@ -73,7 +74,15 @@ export const ViewPost = ({ postId }) => {
       <Link to='/'>Back to main page</Link>
       <br />
       <hr />
-      {post ? <Post {...post} fullPost /> : `Post with id ${postId} not found.`}
+      {post ? (
+        <div>
+          <Post {...post} fullPost />
+          <hr />
+          <PostStats postId={postId} />
+        </div>
+      ) : (
+        `Post with id ${postId} not found.`
+      )}
     </div>
   )
 }
