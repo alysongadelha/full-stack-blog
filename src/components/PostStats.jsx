@@ -1,6 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import {
+  VictoryChart,
+  VictoryTooltip,
+  VictoryBar,
+  VictoryLine,
+  VictoryVoronoiContainer,
+} from 'victory'
+import {
   getTotalViews,
   getDailyViews,
   getDailyDurations,
@@ -48,6 +55,19 @@ export const PostStats = ({ postId }) => {
   return (
     <div>
       <b>{totalViews.data?.views} total views</b>
+      <div style={{ width: 512 }}>
+        <h3>Daily Views</h3>
+        <VictoryChart domainPadding={16}>
+          <VictoryBar
+            labelComponent={<VictoryTooltip />}
+            data={dailyViews.data?.map((data) => ({
+              x: new Date(data._id),
+              y: data.views,
+              label: `${new Date(data._id).toLocaleDateString()}: ${data.views} views`,
+            }))}
+          />
+        </VictoryChart>
+      </div>
       <pre>{averageDailyViews} average daily views</pre>
       <pre>{averageDurationFormatted}</pre>
     </div>
