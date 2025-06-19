@@ -75,7 +75,7 @@ export const getDailyDurations = async (postId) =>
       $project: {
         day: {
           $dateTrunc: {
-            date: 'startDate',
+            date: '$startDate',
             unit: 'day',
           },
         },
