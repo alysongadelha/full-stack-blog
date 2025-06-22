@@ -1,4 +1,4 @@
-import { requireAuth } from '../middleware.js'
+import { requireAuth } from '../middleware/jwt.js'
 import {
   listAllPosts,
   listPostsByAuthor,
