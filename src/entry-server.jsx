@@ -8,7 +8,11 @@ import { App } from './App.jsx'
 import { routes } from './routes.jsx'
 import { createFetchRequest } from './request.js'
 
-const handler = createStaticHandler(routes)
+const handler = createStaticHandler(routes, {
+  future: {
+    v7_startTransition: true,
+  },
+})
 
 export const render = async (req) => {
   const fetchRequest = createFetchRequest(req)

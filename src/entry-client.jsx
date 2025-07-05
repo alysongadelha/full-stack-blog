@@ -4,7 +4,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { App } from './App.jsx'
 import { routes } from './routes.jsx'
 
-const router = createBrowserRouter(routes)
+const router = createBrowserRouter(routes, {
+  future: {
+    v7_startTransition: true,
+  },
+})
 
 hydrateRoot(
   document.getElementById('root'),

@@ -1,24 +1,42 @@
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useQuery as useGraphQLQuery } from '@apollo/client/react/index.js'
 import { CreatePost } from '../components/CreatePost'
 import { PostFilter } from '../components/PostFilter'
 import { PostSorting } from '../components/PostSorting'
 import { PostList } from '../components/PostList'
-import { getPosts } from '../api/posts.js'
 import { Header } from '../components/Header.jsx'
+import { GET_POSTS, GET_POSTS_BY_AUTHOR } from '../api/graphql/posts.js'
 
 export const Blog = () => {
   const [author, setAuthor] = useState('')
+  const [debouncedFilterInputValue, setDebouncedFilterInputValue] =
+    useState(author)
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortOrder, setSortOrder] = useState('descending')
 
-  const postsQuery = useQuery({
-    queryKey: ['posts', { author, sortBy, sortOrder }],
-    queryFn: () => getPosts({ author, sortBy, sortOrder }),
-  })
+  useEffect(() => {
+    const delayInputTimeout = setTimeout(() => {
+      setDebouncedFilterInputValue(author)
+    }, 500)
 
-  const posts = postsQuery.data ?? []
+    return () => clearTimeout(delayInputTimeout)
+  }, [author])
+
+  const { data, loading, error } = useGraphQLQuery(
+    debouncedFilterInputValue ? GET_POSTS_BY_AUTHOR : GET_POSTS,
+    {
+      variables: {
+        author: debouncedFilterInputValue,
+        options: { sortBy, sortOrder },
+      },
+    },
+  )
+
+  if (loading) return <span>loading...</span>
+  if (error) return <h1>error...</h1>
+
+  const posts = data.postsByAuthor ?? data.posts ?? []
 
   return (
     <div style={{ padding: 8 }}>
@@ -40,7 +58,7 @@ export const Blog = () => {
       <PostFilter
         field='Author'
         value={author}
-        onChange={(value) => setAuthor(value)}
+        onChange={(value) => setAuthor(value)} // TODO Debounce here
       />
       <br />
       <PostSorting

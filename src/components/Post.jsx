@@ -9,13 +9,13 @@ export const Post = ({
   title,
   contents,
   author,
-  tags,
-  _id,
+  tags = [],
+  id,
   fullPost = false,
 }) => {
   const queryClient = useQueryClient()
   const deletePostMutation = useMutation({
-    mutationFn: () => deletePost(_id),
+    mutationFn: () => deletePost(id),
     onSuccess: () => queryClient.invalidateQueries(['posts']),
   })
 
@@ -44,7 +44,7 @@ export const Post = ({
         {fullPost ? (
           <h3>{title}</h3>
         ) : (
-          <Link to={`/posts/${_id}/${slug(title)}`}>
+          <Link to={`/posts/${id}/${slug(title)}`}>
             <h3>{title}</h3>
           </Link>
         )}
@@ -52,7 +52,7 @@ export const Post = ({
         {author && (
           <em>
             {fullPost && <br />}
-            Written by <User id={author} />
+            Written by <User {...author} />
           </em>
         )}
         <br />
@@ -65,8 +65,8 @@ export const Post = ({
 Post.propTypes = {
   title: PropTypes.string.isRequired,
   contents: PropTypes.string,
-  author: PropTypes.string,
+  author: PropTypes.shape(User.propTypes),
   tags: PropTypes.arrayOf(PropTypes.string),
-  _id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   fullPost: PropTypes.bool,
 }
